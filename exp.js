@@ -1,3 +1,4 @@
+const { applyMiddleware, exceptionMiddleware, timeMiddleware, loggerMiddleware } = require('./applyMiddleware.js');
 const { counterReducer, infoReducer } = require('./reducers.js');
 const { createStore, combineReducer } = require('./redux.js');
 
@@ -6,8 +7,11 @@ const reducer = combineReducer({
   info: infoReducer
 })
 
+const newCreateStore = applyMiddleware(exceptionMiddleware, timeMiddleware, loggerMiddleware)(createStore);
+
 /* 这里没有传 initState 哦 */
-const store = createStore(reducer);
+const store = newCreateStore(reducer);
+
 /* 这里看看初始化的 state 是什么 */
 console.dir(store.getState());
 
