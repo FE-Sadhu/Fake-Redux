@@ -27,4 +27,22 @@
   }
 }
 
-module.exports = {createStore};
+// Reducer 肯定会划分，按经验是组件级别划分，所以需要结合 Reducer 的方法
+function combineReducer(reducerObj) {
+  const reducerKeys = Object.keys(reducerObj);
+
+  return function curryReducer(state, action) {
+    const newStateMap = {};
+    reducerKeys.forEach(key => {
+      const reducer = reducerObj[key];
+      const prevState = state[key];
+      const newState = reducer(prevState, action);
+      newStateMap[key] = newState;
+    })
+    return newStateMap;
+  }
+}
+
+module.exports = {
+  createStore, combineReducer
+};
