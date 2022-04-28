@@ -1,6 +1,10 @@
+const counterState = {
+  count: 0
+};
+
 /* counterReducer, 一个子 reducer */
 /* 注意：counterReducer 接收的 state 是 state.counter */
-function counterReducer(state, action) {
+function counterReducer(state = counterState, action) {
   switch (action.type) {
     case 'INCREMENT':
       return {
@@ -16,9 +20,14 @@ function counterReducer(state, action) {
   }
 }
 
+const infoState = {
+  name: '前端九部',
+  description: '我们都是前端爱好者！'
+};
+
 /* InfoReducer，一个子 reducer */
 /* 注意：InfoReducer 接收的 state 是 state.info */
-function infoReducer(state, action) {
+function infoReducer(state = infoState, action) {
   switch (action.type) {
     case 'SET_NAME':
       return {

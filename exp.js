@@ -1,22 +1,15 @@
 const { counterReducer, infoReducer } = require('./reducers.js');
 const { createStore, combineReducer } = require('./redux.js');
 
-const initState = {
-  counter: {
-    count: 0
-  },
-  info: {
-    name: '前端九部',
-    description: '我们都是前端爱好者！'
-  }
-}
-
 const reducer = combineReducer({
   counter: counterReducer,
   info: infoReducer
 })
 
-const store = createStore(reducer, initState);
+/* 这里没有传 initState 哦 */
+const store = createStore(reducer);
+/* 这里看看初始化的 state 是什么 */
+console.dir(store.getState());
 
 store.subscribe(() => {
   let state = store.getState();

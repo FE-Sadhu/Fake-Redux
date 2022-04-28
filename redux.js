@@ -1,5 +1,5 @@
- const createStore = function (reducer, initState) {
-  let state = initState;
+ const createStore = function (reducer) {
+  let state = undefined;
   const listeners = [];
 
   /* 订阅 */
@@ -16,6 +16,9 @@
     }
   }
 
+  // 为了得到初始化 state , dispatch 一个独一无二的值
+  dispatch(Symbol())
+
   function getState() {
     return state;
   }
@@ -31,7 +34,7 @@
 function combineReducer(reducerObj) {
   const reducerKeys = Object.keys(reducerObj);
 
-  return function curryReducer(state, action) {
+  return function curryReducer(state = {}, action) {
     const newStateMap = {};
     reducerKeys.forEach(key => {
       const reducer = reducerObj[key];
