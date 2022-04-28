@@ -4,8 +4,15 @@ const { createStore, combineReducer } = require('./redux.js');
 
 const reducer = combineReducer({
   counter: counterReducer,
-  info: infoReducer
 })
+
+/* 生成新的reducer (随着组件按需加载时会用到) */
+const nextReducer = combineReducers({
+  counter: counterReducer,
+  info: infoReducer
+});
+/* replaceReducer */
+store.replaceReducer(nextReducer);
 
 const newCreateStore = applyMiddleware(exceptionMiddleware, timeMiddleware, loggerMiddleware)(createStore);
 

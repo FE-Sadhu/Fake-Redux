@@ -5,8 +5,12 @@
   /* 订阅 */
   function subscribe(listener) {
     listeners.push(listener);
+    return function unsubscribe() {
+      const index = listeners.indexOf(listener)
+      listeners.splice(index, 1)
+    }
   }
-
+  
   function dispatch(action) {
     state = reducer(state, action);
     /* 通知 */
@@ -14,6 +18,12 @@
       const listener = listeners[i];
       listener();
     }
+  }
+
+  function replaceReducer() {
+    reducer = nextReducer
+    /* 刷新一遍 state 的值，新来的 reducer 把自己的默认状态放到 state 树上去 */
+    dispatch({ type: Symbol() })
   }
 
   // 为了得到初始化 state , dispatch 一个独一无二的值
@@ -26,7 +36,8 @@
   return {
     subscribe,
     dispatch,
-    getState
+    getState,
+    replaceReducer
   }
 }
 

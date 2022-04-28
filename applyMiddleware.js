@@ -25,7 +25,8 @@ function applyMiddleware(...middlewares) {
       const store = oldCreateStore(reducer);
       /* 给每个 middleware 传下 store，相当于 const logger = loggerMiddleware(store); */
       /* const chain = [exception, time, logger] */
-      const chain = middlewares.map(middleware => middleware(store));
+      const simpleStore = { getState: store.getState};
+      const chain = middlewares.map(middleware => middleware(simpleStore));
       let dispatch = store.dispatch;
       /* 实现 exception(time((logger(dispatch))))*/
       chain.reverse().forEach(middleware => {
